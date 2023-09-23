@@ -1,5 +1,8 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
+import Image from 'next/image'
+
+import techsImage from '../../public/images/techs.svg'
 
 export default function Home() {
   return (
@@ -19,7 +22,7 @@ export default function Home() {
             </span>
 
             <div>
-              <button>ACESSE AGORA</button>
+              <button>Acess agora</button>
             </div>
           </section>
 
@@ -54,6 +57,19 @@ export default function Home() {
               saepe eius sequi.
             </span>
           </section>
+        </div>
+
+        <div className={styles.nextLevelContent}>
+          <Image src={techsImage} alt='Tecnologias'/>
+          <h2>Mais de <span>10 mil</span> já levaram suas carreiras ao próximo nível</h2>
+
+          <span>
+            E você vai perder esssa oportunidade de evoluir de uma vez por todas?
+          </span>
+
+          <div>
+            <button>Acessar turma!</button>
+          </div>
         </div>
       </main>
     </>

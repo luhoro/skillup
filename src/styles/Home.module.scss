@@ -1,6 +1,17 @@
 .container {
   display: block;
   padding-top: 2.5rem;
+
+  button {
+    text-transform: uppercase;
+    background-color: var(--orange-500);
+    border: none;
+    padding: 1rem 1.8rem;
+    margin-top: 1.5rem;
+    border-radius: .6rem;
+    color: var(--white);
+    font-weight: bold;
+  }
 }
 
 .containerHeader {
@@ -30,15 +41,6 @@
     line-height: 1.3em;
   }
 
-  button {
-    background-color: var(--orange-500);
-    border: none;
-    padding: 1rem 1.8rem;
-    margin-top: 1.5rem;
-    border-radius: .6rem;
-    color: var(--white);
-    font-weight: bolder;
-  }
 }
 
 .divisor {
@@ -67,6 +69,28 @@
     line-height: 1.3em;
     font-weight: 900;
     margin-top: 2rem;
+  }
+
+  span {
+    line-height: 1.6em;
+  }
+}
+
+.nextLevelContent {
+  max-width: 1120px;
+  margin: 6rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h2 {
+    font-size: 2.2rem;
+    line-height: 1.3em;
+
+    span {
+      font-weight: 800;
+      color: var(--blue-900);
+    }
   }
 
   span {
