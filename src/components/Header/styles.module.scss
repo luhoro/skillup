@@ -1,10 +1,9 @@
 .headerContainer {
   box-shadow: 0 0 30px #41414183;
-  font-size: 1.1em;
 }
 
 .headerContent {
-  max-width: 1120px;
+  max-width: var(--max-container);
   padding: 2.5rem 2rem;
   margin: 0 auto;
   display: flex;
@@ -27,30 +26,27 @@
       }
 
       &.active {
-        color: var(--blue-900);
+        color: var(--blue);
         font-weight: bold;
       }
     }
   }
-}
 
-.readyButton {
-  border: none;
-  padding: .4rem .6rem;
-  border-radius: .5rem;
-  background-color: var(--orange-500);
-  color: #fff;
-  transition: all 200ms;
-
-  &:hover {
-    filter: brightness(1.1);
+  a {
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
 }
 
-@media (max-width: 690px) {
+@media (max-width: 720px) {
   .headerContent {
-    padding: 2rem 1rem;
-    gap: 1rem;
-    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    a[type="button"] {
+      padding: .5rem .8rem;
+      font-size: .9rem;
+    }
   }
 }

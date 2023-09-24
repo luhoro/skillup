@@ -19,10 +19,14 @@ ul {
   --gray-900: #292929;
 
 
-  --blue-200: #9DD9D2;
-  --blue-900: #4FCFC0; 
-  --orange-200: #FFAF60;
-  --orange-500: #FF8811; 
+  --blue-light: #9DD9D2;
+  --blue: #4FCFC0; 
+  --orange-light: #FFAF60;
+  --orange: #FF8811; 
+  --purple-light: #D7BDE8;
+  --purple: #A566D6;
+
+  --max-container: 1240px;
 }
 
 @media (max-width: 1080px) {
@@ -54,4 +58,25 @@ button {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.baseButton {
+  text-transform: uppercase;
+  background-color: var(--purple-light);
+  border: 2px solid #000000;
+  box-shadow: 5px 3px 0 1px #0000008f;
+  padding: .8rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 900;
+  transition: background-color 200ms;
+
+  &:hover {
+    background-color: var(--purple);
+    color: var(--white);
+  }
+
+  &:active {
+    translate: 5px 3px;
+    box-shadow: none;
+  }
 }

@@ -9,7 +9,7 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Skill Up</title>
-        <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="favicon.svg" type="image/x-icon" />
       </Head>
       
       <Header />

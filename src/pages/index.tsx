@@ -14,19 +14,19 @@ export default function Home() {
       <main className={styles.container}>
         <div className={styles.containerHeader}>
           <section className={styles.content}>
-            <h2>Descubra uma melhor versão de si mesmo</h2>
+            <h1>Descubra uma <span>melhor versão</span> de si mesmo</h1>
 
-            <span>
+            <p>
               Conheça a plataforma perfeita para descobrir e aprimorar suas
               habilidades profissionais e conseguir crescer em sua carreira.
-            </span>
+            </p>
 
             <div>
-              <button>Acess agora</button>
+              <button className='baseButton'>Acesse agora!</button>
             </div>
           </section>
 
-          <img src="/images/banner-conteudos.png" alt="Conteúdos Skill Up" />
+          <img src="/images/banner.png" alt="Conteúdos Skill Up" />
         </div>
 
         <div className={styles.divisor}></div>
@@ -59,8 +59,11 @@ export default function Home() {
           </section>
         </div>
 
+        <div className={styles.divisor}></div>
+
         <div className={styles.nextLevelContent}>
-          <Image src={techsImage} alt='Tecnologias'/>
+          <Image src={techsImage} alt='Tecnologias' className={styles.imagee} />
+          
           <h2>Mais de <span>10 mil</span> já levaram suas carreiras ao próximo nível</h2>
 
           <span>
@@ -68,7 +71,7 @@ export default function Home() {
           </span>
 
           <div>
-            <button>Acessar turma!</button>
+            <button className='baseButton'>Acessar turma!</button>
           </div>
         </div>
       </main>

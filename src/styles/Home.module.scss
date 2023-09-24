@@ -1,46 +1,40 @@
 .container {
   display: block;
   padding-top: 2.5rem;
-
-  button {
-    text-transform: uppercase;
-    background-color: var(--orange-500);
-    border: none;
-    padding: 1rem 1.8rem;
-    margin-top: 1.5rem;
-    border-radius: .6rem;
-    color: var(--white);
-    font-weight: bold;
-  }
 }
 
 .containerHeader {
-  min-height: calc(100vh - 5rem);
+  padding: 5rem 2rem;
   margin: 0 auto;
-  max-width: 1120px;
+  max-width: var(--max-container);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
 
   img {
     width: 100%;
-    max-width: 640px;
-  }
-}
-
-.content {
-  max-width: 600px;
-
-  h2 {
-    font-size: 3.5rem;
-    line-height: 1.3em;
-    font-weight: 900;
+    max-width: 600px;
   }
 
-  span {
-    line-height: 1.3em;
-  }
+  .content {
+    max-width: 600px;
 
+    h1 {
+      font-size: 3.5rem;
+      line-height: 1.3em;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+
+    span {
+      color: var(--blue);
+    }
+
+    button {
+      margin-top: 2rem;
+    }
+  }
 }
 
 .divisor {
@@ -51,49 +45,98 @@
 
 .sectionContent {
   margin: 5.5rem auto;
-  max-width: 1120px;
+  padding: 0 2rem;
+  max-width: var(--max-container);
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1.5rem;
 
-  section{
+  section {
     max-width: 670px;
+
+    h2 {
+      font-size: 2.2rem;
+      line-height: 1.3em;
+      font-weight: 900;
+      margin: 2rem 0 1rem 0;
+    }
+
+    span {
+      line-height: 1.6em;
+    }
   }
 
   img {
+    width: 100%;
     max-width: 550px;
-  }
-
-  h2 {
-    font-size: 2.2rem;
-    line-height: 1.3em;
-    font-weight: 900;
-    margin-top: 2rem;
-  }
-
-  span {
-    line-height: 1.6em;
   }
 }
 
 .nextLevelContent {
-  max-width: 1120px;
+  max-width: var(--max-container);
   margin: 6rem auto;
+  padding: 0 2rem;
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
   justify-content: space-between;
+
+  .imagee {
+    width: 100%;
+    max-width: 300px;
+  }
 
   h2 {
     font-size: 2.2rem;
     line-height: 1.3em;
+    margin-bottom: 1rem;
 
     span {
       font-weight: 800;
-      color: var(--blue-900);
+      color: var(--blue);
     }
   }
 
   span {
     line-height: 1.6em;
+  }
+
+  button {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 1020px) {
+  .containerHeader {
+    button {
+      display: block;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+  }
+}
+
+@media (max-width: 920px) {
+  .containerHeader {
+    flex-direction: column;
+    gap: 4rem;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .sectionContent {
+    flex-direction: column;
+
+    section {
+      max-width: 500px;
+    }
   }
 }
