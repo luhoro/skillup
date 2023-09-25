@@ -1,8 +1,14 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
-import Image from 'next/image'
 
-import techsImage from '../../public/images/techs.svg'
+import Card from '../components/Card'
+import {
+  FaRegLightbulb,
+  FaSearch,
+  FaCommentDots,
+  FaChalkboardTeacher,
+} from 'react-icons/fa'
+import { PiTargetBold } from 'react-icons/pi'
 
 export default function Home() {
   return (
@@ -14,7 +20,9 @@ export default function Home() {
       <main className={styles.container}>
         <div className={styles.containerHeader}>
           <section className={styles.content}>
-            <h1>Descubra uma <span>melhor versão</span> de si mesmo</h1>
+            <h1>
+              Descubra uma <span>melhor versão</span> de si mesmo
+            </h1>
 
             <p>
               Conheça a plataforma perfeita para descobrir e aprimorar suas
@@ -22,7 +30,7 @@ export default function Home() {
             </p>
 
             <div>
-              <button className='baseButton'>Acesse agora!</button>
+              <button className="baseButton">Acesse agora!</button>
             </div>
           </section>
 
@@ -32,46 +40,67 @@ export default function Home() {
         <div className={styles.divisor}></div>
 
         <div className={styles.sectionContent}>
-          <section>
-            <h2>Aprenda tudo sobre o mundo dev</h2>
-            <span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              numquam accusamus cupiditate adipisci nostrum? Ea sapiente non
-              saepe eius sequi.
-            </span>
-          </section>
+          <div className={styles.cards}>
+            <Card
+              icon={<FaRegLightbulb size={30} />}
+              color={true}
+              title="Hard skills"
+            >
+              Desenvolva suas habilidades técnicas nos assuntos mais recentes e
+              promissores da tecnologia.
+            </Card>
 
-          <img src="/images/financasApp.png" alt="Conteúdos da plataforma" />
-        </div>
+            <Card
+              icon={<FaSearch size={30} />}
+              color={false}
+              title="Soft skills"
+            >
+              Aprenda a gerenciar seu tempo, e a trabalhar em uma equipe na
+              prática com outros estudantes.
+            </Card>
 
-        <div className={styles.divisor}></div>
+            <Card
+              icon={<FaCommentDots size={30} />}
+              color={true}
+              title="Língua inglesa"
+            >
+              Aprenda inglês da forma mais eficaz com o método skill UP, um
+              curso focado na prática e focado para desenvolvedores.
+            </Card>
 
-        <div className={styles.sectionContent}>
-          <img src="/images/webDev.png" alt="Conteúdos da plataforma" />
+            <Card
+              icon={<FaChalkboardTeacher size={30} />}
+              color={false}
+              title="Mentorias"
+            >
+              Tenha confiança em seu processo de aprendizagem com mentorias
+              individuais dos profissionais da skill Up.
+            </Card>
+          </div>
 
-          <section>
-            <h2>Aprenda tudo sobre o mundo dev</h2>
-            <span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-              numquam accusamus cupiditate adipisci nostrum? Ea sapiente non
-              saepe eius sequi.
-            </span>
-          </section>
+          <div className={styles.text}>
+            <h2> além de <span>lives</span> semanais! </h2>
+            <button className="baseButton">Conheça mais!</button>
+          </div>
         </div>
 
         <div className={styles.divisor}></div>
 
         <div className={styles.nextLevelContent}>
-          <Image src={techsImage} alt='Tecnologias' className={styles.imagee} />
-          
-          <h2>Mais de <span>10 mil</span> já levaram suas carreiras ao próximo nível</h2>
+          <PiTargetBold size={40}/>
+
+          <h3>
+            Mais de <span>10 mil</span> já levaram suas carreiras ao próximo
+            nível
+          </h3>
 
           <span>
-            E você vai perder esssa oportunidade de evoluir de uma vez por todas?
+            E você vai perder esssa oportunidade de evoluir de uma vez por
+            todas?
           </span>
 
           <div>
-            <button className='baseButton'>Acessar turma!</button>
+            <button className="baseButton">Acessar turma!</button>
           </div>
         </div>
       </main>
