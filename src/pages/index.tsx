@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Skill Up - Home</title>
+        <title>Home | Skill Up</title>
       </Head>
 
       <main className={styles.container}>
