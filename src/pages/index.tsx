@@ -1,3 +1,5 @@
+import { GetStaticProps } from 'next'
+
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 
@@ -7,14 +9,31 @@ import {
   FaSearch,
   FaCommentDots,
   FaChalkboardTeacher,
+  FaRocket
 } from 'react-icons/fa'
-import { PiTargetBold } from 'react-icons/pi'
 
-export default function Home() {
+import { getPrismicClient } from '../services/prismic'
+import Prismic from '@prismicio/client'
+import { RichText } from 'prismic-dom'
+
+type Content = {
+  title: string,
+  subtitle: string,
+  name_linkaction: string,
+  linkaction: string
+}
+
+interface ContentProps {
+  content: Content
+}
+
+export default function Home({ content }: ContentProps) {
+  // console.log(content)
+
   return (
     <>
       <Head>
-        <title>Home | Skill Up</title>
+        <title> Home | Skill Up </title>
       </Head>
 
       <main className={styles.container}>
@@ -25,13 +44,12 @@ export default function Home() {
             </h1>
 
             <p>
-              Conheça a plataforma perfeita para descobrir e aprimorar suas
-              habilidades profissionais e conseguir crescer em sua carreira.
+              {content.subtitle}
             </p>
 
-            <div>
-              <button className="baseButton">Acesse agora!</button>
-            </div>
+            <a href={content.linkaction} target='_blank'>
+              <button className="baseButton">{content.name_linkaction}</button>
+            </a>
           </section>
 
           <img src="/images/banner.png" alt="Conteúdos Skill Up" />
@@ -87,7 +105,7 @@ export default function Home() {
         <div className={styles.divisor}></div>
 
         <div className={styles.nextLevelContent}>
-          <PiTargetBold size={40}/>
+          <FaRocket size={40}/>
 
           <h3>
             Mais de <span>10 mil</span> já levaram suas carreiras ao próximo
@@ -99,11 +117,37 @@ export default function Home() {
             todas?
           </span>
 
-          <div>
+          <a href={content.linkaction} target='_blank'>
             <button className="baseButton">Acessar turma!</button>
-          </div>
+          </a>
         </div>
       </main>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient()
+
+  const response = await prismic.query([
+    Prismic.Predicates.at('document.type', 'home')
+  ])
+
+  // console.log(response.results[0].data)
+
+  const { title, subtitle, linkaction, name_linkaction } = response.results[0].data
+
+  const content = {
+    title: RichText.asText(title),
+    subtitle: RichText.asText(subtitle),
+    name_linkaction: RichText.asText(name_linkaction),
+    linkaction: linkaction.url
+  }
+
+  return {
+    props: {
+      content
+    },
+    revalidate: 60 * 2
+  }
 }
