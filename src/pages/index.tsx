@@ -9,7 +9,7 @@ import {
   FaSearch,
   FaCommentDots,
   FaChalkboardTeacher,
-  FaRocket
+  FaRocket,
 } from 'react-icons/fa'
 
 import { getPrismicClient } from '../services/prismic'
@@ -17,9 +17,9 @@ import Prismic from '@prismicio/client'
 import { RichText } from 'prismic-dom'
 
 type Content = {
-  title: string,
-  subtitle: string,
-  name_linkaction: string,
+  title: string
+  subtitle: string
+  name_linkaction: string
   linkaction: string
 }
 
@@ -43,11 +43,9 @@ export default function Home({ content }: ContentProps) {
               Descubra uma <span>melhor versão</span> de si mesmo
             </h1>
 
-            <p>
-              {content.subtitle}
-            </p>
+            <p>{content.subtitle}</p>
 
-            <a href={content.linkaction} target='_blank'>
+            <a href={content.linkaction} target="_blank">
               <button className="baseButton">{content.name_linkaction}</button>
             </a>
           </section>
@@ -97,7 +95,10 @@ export default function Home({ content }: ContentProps) {
           </div>
 
           <div className={styles.text}>
-            <h2> além de <span>lives</span> semanais! </h2>
+            <h2>
+              {' '}
+              além de <span>lives</span> semanais!{' '}
+            </h2>
             <button className="baseButton">Conheça mais!</button>
           </div>
         </div>
@@ -105,7 +106,7 @@ export default function Home({ content }: ContentProps) {
         <div className={styles.divisor}></div>
 
         <div className={styles.nextLevelContent}>
-          <FaRocket size={40}/>
+          <FaRocket size={40} />
 
           <h3>
             Mais de <span>10 mil</span> já levaram suas carreiras ao próximo
@@ -117,7 +118,7 @@ export default function Home({ content }: ContentProps) {
             todas?
           </span>
 
-          <a href={content.linkaction} target='_blank'>
+          <a href={content.linkaction} target="_blank">
             <button className="baseButton">Acessar turma!</button>
           </a>
         </div>
@@ -130,24 +131,25 @@ export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient()
 
   const response = await prismic.query([
-    Prismic.Predicates.at('document.type', 'home')
+    Prismic.Predicates.at('document.type', 'home'),
   ])
 
   // console.log(response.results[0].data)
 
-  const { title, subtitle, linkaction, name_linkaction } = response.results[0].data
+  const { title, subtitle, linkaction, name_linkaction } =
+    response.results[0].data
 
   const content = {
     title: RichText.asText(title),
     subtitle: RichText.asText(subtitle),
     name_linkaction: RichText.asText(name_linkaction),
-    linkaction: linkaction.url
+    linkaction: linkaction.url,
   }
 
   return {
     props: {
-      content
+      content,
     },
-    revalidate: 60 * 2
+    revalidate: 60 * 2,
   }
 }
