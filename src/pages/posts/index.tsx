@@ -2,15 +2,21 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 import styles from './Posts.module.scss'
-import {FiChevronsLeft, FiChevronLeft, FiChevronRight, FiChevronsRight} from 'react-icons/fi'
+import {
+  FiChevronsLeft,
+  FiChevronLeft,
+  FiChevronRight,
+  FiChevronsRight,
+} from 'react-icons/fi'
 import { GetStaticProps } from 'next'
 
 import { getPrismicClient } from '../../services/prismic'
 import Prismic from '@prismicio/client'
 import { RichText } from 'prismic-dom'
+import { useState } from 'react'
 
 type Post = {
-  slug: string
+  slug: string | undefined
   title: string
   description: string
   cover: string
@@ -19,9 +25,62 @@ type Post = {
 
 interface PostProps {
   posts: Post[]
+  page: string
+  totalPage: string
 }
 
-export default function Posts({ posts }: PostProps) {
+export default function Posts({
+  posts: postsBlog,
+  page,
+  totalPage,
+}: PostProps) {
+
+  const [currentPage, setCurrentPage] = useState(Number(page))
+  const [posts, setPosts] = useState(postsBlog || [])
+
+  const reqPost = async (pageNumber: number) => {
+    const prismic = getPrismicClient()
+    const response = await prismic.query([
+      Prismic.Predicates.at('document.type', 'post')
+    ], {
+      orderings: '[document.last_publication_date desc]',
+      fetch: ['post.title, post.description, post.cover'],
+      pageSize: 3,
+      page: String(pageNumber)
+    })
+
+    return response
+  }
+
+  const navigatePage = async (pageNumber: number) => {
+    const response = await reqPost(pageNumber)
+
+    if (response.results.length === 0) {
+      return 
+    }
+
+    const getPosts = response.results.map(post => {
+      return {
+        slug: post.uid,
+        title: RichText.asText(post.data.title),
+        description:
+          post.data.description.find((content) => content.type === 'paragraph')
+            ?.text ?? '',
+        cover: post.data.cover.url,
+        updatedAt: new Date(
+          post.last_publication_date as string
+        ).toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        })
+      }
+    })
+
+    setCurrentPage(pageNumber)
+    setPosts(getPosts)
+  }
+
   return (
     <>
       <Head>
@@ -30,42 +89,40 @@ export default function Posts({ posts }: PostProps) {
 
       <main className={styles.container}>
         <div className={styles.posts}>
-          <Link href='/#'>
-            <img src={'https://res.cloudinary.com/abuhakmeh/image/fetch/c_limit,f_auto,q_auto,w_800/https://khalidabuhakmeh.com/assets/images/posts/youtube-thumbnails/bg_computer_programmer.png'} width={720} height={410} alt='Post Título 1' />
-            
-            <strong>Modelo título 1ª postagem</strong>
-            <time>26 de Setembro 2023</time>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae voluptas rem eius, nobis minus cum et quis eaque! Culpa, officia?</p>
-          </Link>
+          {posts.map((post) => (
+            <Link href={`/posts/${post.slug}`} key={post.slug}>
+              <img src={post.cover} alt={post.title} width={720} height={410} />
 
-          <Link href='/#'>
-            <img src={'https://res.cloudinary.com/abuhakmeh/image/fetch/c_limit,f_auto,q_auto,w_800/https://khalidabuhakmeh.com/assets/images/posts/youtube-thumbnails/bg_computer_programmer.png'} width={720} height={410} alt='Post Título 1' />
-            
-            <strong>Modelo título 1ª postagem</strong>
-            <time>26 de Setembro 2023</time>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae voluptas rem eius, nobis minus cum et quis eaque! Culpa, officia?</p>
-          </Link>
+              <strong>{post.title}</strong>
+              <time>{post.updatedAt}</time>
+              <p>{post.description}</p>
+            </Link>
+          ))}
 
           <div className={styles.buttonNavigate}>
-            <div>
-              <button>
-                <FiChevronsLeft size={30} color='var(--gray-700)' />
-              </button>
+            {Number(currentPage) >= 2 && (
+              <div className={styles.back}>
+                <button onClick={() => navigatePage(1)}>
+                  <FiChevronsLeft size={30} color="var(--gray-700)" />
+                </button>
 
-              <button>
-                <FiChevronLeft size={30} color='var(--gray-900)' />
-              </button>
-            </div>
+                <button onClick={() => navigatePage(Number(currentPage - 1))}>
+                  <FiChevronLeft size={30} color="var(--gray-900)" />
+                </button>
+              </div>
+            )}
 
-            <div>
-              <button>
-                <FiChevronRight size={30} color='var(--gray-900)' />
-              </button>
+            {Number(currentPage) < Number(totalPage) && (
+              <div className={styles.forward}>
+                <button onClick={() => navigatePage(Number(currentPage + 1))}>
+                  <FiChevronRight size={30} color="var(--gray-900)" />
+                </button>
 
-              <button>
-                <FiChevronsRight size={30} color='var(--gray-700)' />
-              </button>
-            </div>
+                <button onClick={() => navigatePage(Number(totalPage))}>
+                  <FiChevronsRight size={30} color="var(--gray-700)" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </main>
@@ -76,32 +133,39 @@ export default function Posts({ posts }: PostProps) {
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient()
 
-  const response = await prismic.query([
-    Prismic.Predicates.at('document.type', 'post')
-  ], {
-    orderings: '[document.last_publication_date desc]',
-    fetch: ['post.title, post.description, post.cover'],
-    pageSize: 3
-  })
+  const response = await prismic.query(
+    [Prismic.Predicates.at('document.type', 'post')],
+    {
+      orderings: '[document.last_publication_date desc]',
+      fetch: ['post.title, post.description, post.cover'],
+      pageSize: 3,
+    }
+  )
 
-  const posts = response.results.map(post => {
+  const posts = response.results.map((post) => {
     return {
       slug: post.uid,
       title: RichText.asText(post.data.title),
-      description: post.data.description.find(content => content.type === 'paragraph')?.text ?? '',
+      description:
+        post.data.description.find((content) => content.type === 'paragraph')
+          ?.text ?? '',
       cover: post.data.cover.url,
-      updatedAt: new Date(post.last_publication_date as string).toLocaleDateString('pt-BR', {
+      updatedAt: new Date(
+        post.last_publication_date as string
+      ).toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: 'long',
-        year: 'numeric'
-      }) 
+        year: 'numeric',
+      }),
     }
   })
 
   return {
     props: {
-      posts
+      posts,
+      page: response.page,
+      totalPage: response.total_pages,
     },
-    revalidate: 60 * 30
+    revalidate: 60 * 30,
   }
 }
