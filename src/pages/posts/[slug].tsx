@@ -1,8 +1,13 @@
 import { GetServerSideProps } from 'next'
+import styles from './Post.module.scss'
 
 import { getPrismicClient } from '../../services/prismic'
 import { RichText } from 'prismic-dom'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
+
+import Head from 'next/head'
+import Image from 'next/image'
+
 
 interface PostProps {
   post: {
@@ -15,12 +20,30 @@ interface PostProps {
 }
 
 export const Post = ({ post }: PostProps) => {
-  console.log(post)
   return (
-    <div>
-      <h1>aaa</h1>
-      <p>bbbbbbb</p>
-    </div>
+    <>
+      <Head>
+        <title>{post.title}</title>
+      </Head>
+      <main className={styles.container}>
+        <article className={styles.post}>
+          <Image
+            quality={100}
+            src={post.cover}
+            width={720}
+            height={410}
+            alt={post.title}
+          />
+
+          <h1>{post.title}</h1>
+          <time>{post.updatedAt}</time>
+
+          <div className={styles.postContent} dangerouslySetInnerHTML={{__html: post.description}}>
+
+          </div>
+        </article>
+      </main>
+    </>
   )
 }
 
