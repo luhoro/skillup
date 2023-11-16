@@ -134,8 +134,6 @@ export const getStaticProps: GetStaticProps = async () => {
     Prismic.Predicates.at('document.type', 'home'),
   ])
 
-  // console.log(response.results[0].data)
-
   const { title, subtitle, linkaction, name_linkaction } =
     response.results[0].data
 
